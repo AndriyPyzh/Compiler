@@ -1,0 +1,8 @@
+read> a;
+a = 12;
+write> a;
+a = 12.55
+while[a-1]{
+write>a;
+a = a-1;
+}
