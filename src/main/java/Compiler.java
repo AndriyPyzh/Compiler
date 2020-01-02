@@ -1,7 +1,11 @@
+import sun.font.DelegatingShape;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Stack;
 
 public class Compiler {
     private int index;
@@ -26,7 +30,7 @@ public class Compiler {
 
 
     private void HandleBlock() {
-        while (index < tokens.size()) {
+        while (index < tokens.size() && !token(index).getLexeme().equals("}")) {
             if (token(index).isOperatorBlock()) {
                 HandleOperatorBlock();
             } else {
@@ -82,9 +86,29 @@ public class Compiler {
         index += 2;
     }
 
+    private int priority(String operation) {
+        if ("*/".contains(operation)) {
+            return 1;
+        } else if ("+-".contains(operation)) {
+            return 2;
+        }
+        return 3;
+    }
+
+    private void generateCommand(){
+
+    }
 
     private void HandleExpression(String var) {
 
+        Stack<String> ARGUMENTS = new Stack<>();
+        while (!token(index).getLexeme().equals("]") && !token(index).getLexeme().equals("}") && !token(index).getLexeme().equals(";")) {
+            if (token(index).isVariable()) {
+                ARGUMENTS.push(token(index).getLexeme());
+            } else if (token(index).isOperator()) {
+                while ()
+            }
+        }
     }
 
     public void WriteToFile(String path) throws IOException {

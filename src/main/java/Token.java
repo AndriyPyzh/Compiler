@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Token {
     private String lexeme;
 
@@ -22,5 +24,11 @@ public class Token {
     }
     public boolean isLoop(){
         return lexeme.equals("while");
+    }
+    public boolean isVariable(){
+        return lexeme.chars().allMatch(Character::isLetter);
+    }
+    public boolean isOperator(){
+        return Arrays.asList(new String[]{"+", "-", "*", "/"}).contains(lexeme);
     }
 }

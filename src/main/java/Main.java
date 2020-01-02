@@ -28,7 +28,6 @@ public class Main {
 
     public static LinkedList<Token> tokenize(String code) {
         String str = code.replaceAll("\\s", "");
-
         Pattern pattern = Pattern.compile("[a-zA-Z]+|\\d+\\.\\d+|\\d+|\\W");
         Matcher matcher = pattern.matcher(str);
 
