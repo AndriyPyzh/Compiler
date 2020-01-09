@@ -1,8 +1,10 @@
 read> a;
 a = 12;
+a = (12-6)*2 * 4 - 12;
 write> a;
-a = 12.55
-while[a-1]{
-write>a;
+while[a]{
 a = a-1;
+}
+if[a]{
+write>a;
 }

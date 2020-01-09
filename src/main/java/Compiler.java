@@ -1,11 +1,9 @@
-import sun.font.DelegatingShape;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
+
 
 public class Compiler {
     private int index;
@@ -20,14 +18,20 @@ public class Compiler {
         temp_count = 1;
     }
 
+    public void compile() {
+        HandleBlock();
+    }
+
+    public void WriteToFile(String path) throws IOException {
+        FileWriter fileWriter = new FileWriter(path);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        COMMANDS.forEach((p) -> printWriter.println(p.toString()));
+        printWriter.close();
+    }
+
     private Token token(int indx) {
         return tokens.get(indx);
     }
-
-    public void compile() {
-
-    }
-
 
     private void HandleBlock() {
         while (index < tokens.size() && !token(index).getLexeme().equals("}")) {
@@ -36,7 +40,6 @@ public class Compiler {
             } else {
                 HandleCommand();
             }
-            index++;
         }
     }
 
@@ -51,7 +54,7 @@ public class Compiler {
         } else {
             tempvar = String.format("t%d", temp_count);
             temp_count++;
-            HandleExpressionArg(tempvar);
+            HandleExpression(tempvar);
         }
         index++;
         COMMANDS.add(new Command("GOTOIFNOT", tempvar, "$"));
@@ -64,26 +67,21 @@ public class Compiler {
         index++;
     }
 
-    private void HandleExpressionArg(String var) {
-        HandleExpression(var);
-    }
-
-    private void HandleExpressionArg() {
-        String var = "";
-        HandleExpression(var);
-    }
 
     private void HandleCommand() {
         if (token(index).isIO()) {
             COMMANDS.add(new Command(token(index).getLexeme().toUpperCase(), token(index += 2).getLexeme()));
+            index += 2;
+
         } else {
             if (token(index + 3).getLexeme().equals(";")) {
-                COMMANDS.add(new Command(token(index).getLexeme(), token(index += 2).getLexeme()));
+                COMMANDS.add(new Command("COPY", token(index).getLexeme(), token(index += 2).getLexeme()));
+                index += 2;
             } else {
-                HandleExpressionArg(token(index).getLexeme());
+                index += 2;
+                HandleExpression(token(index - 2).getLexeme());
             }
         }
-        index += 2;
     }
 
     private int priority(String operation) {
@@ -95,28 +93,67 @@ public class Compiler {
         return 3;
     }
 
-    private void generateCommand(){
+    private void generateCommand(Stack<String> OPERATIONS, Stack<String> ARGUMENTS) {
+        String op = OPERATIONS.pop();
+        String arg1 = ARGUMENTS.pop();
+        String arg2 = ARGUMENTS.pop();
+        String command = "";
+        switch (op) {
+            case "+":
+                command = "ADD";
+                break;
+            case "-":
+                command = "SUB";
+                break;
+            case "*":
+                command = "MUL";
+                break;
+            case "/":
+                command = "DIV";
+                break;
+            default:
+                System.err.println("Invalid Operation");
+                System.exit(1);
+        }
+
+        String res_var = "t" + temp_count++;
+        COMMANDS.add(new Command(command, arg2, arg1, res_var));
+        ARGUMENTS.push(res_var);
 
     }
 
-    private void HandleExpression(String var) {
-
+    private void HandleExpression(String... args) {
         Stack<String> ARGUMENTS = new Stack<>();
+        Stack<String> OPERATIONS = new Stack<>();
         while (!token(index).getLexeme().equals("]") && !token(index).getLexeme().equals("}") && !token(index).getLexeme().equals(";")) {
             if (token(index).isVariable()) {
                 ARGUMENTS.push(token(index).getLexeme());
             } else if (token(index).isOperator()) {
-                while ()
+                while (OPERATIONS.size() !=0 && priority(OPERATIONS.peek()) <= priority(token(index).getLexeme())) {
+                    generateCommand(OPERATIONS, ARGUMENTS);
+                }
+                OPERATIONS.push(token(index).getLexeme());
+            } else if (token(index).getLexeme().equals("(")) {
+                OPERATIONS.push(token(index).getLexeme());
+            } else if (token(index).getLexeme().equals(")")) {
+                while (!OPERATIONS.peek().equals("(")) {
+                    generateCommand(OPERATIONS, ARGUMENTS);
+                }
+                OPERATIONS.pop();
+            } else {
+                System.err.println("Expression exception");
+                System.exit(1);
             }
+            index++;
+        }
+        while (OPERATIONS.size() != 0) {
+            generateCommand(OPERATIONS, ARGUMENTS);
+        }
+        index++;
+        if (args.length != 0) {
+            COMMANDS.getLast().setArg3(args[0]);
+            temp_count--;
         }
     }
-
-    public void WriteToFile(String path) throws IOException {
-        FileWriter fileWriter = new FileWriter(path);
-        PrintWriter printWriter = new PrintWriter(fileWriter);
-        COMMANDS.forEach((p) -> printWriter.println(p.toString()));
-        printWriter.close();
-    }
-
 
 }

@@ -1,22 +1,24 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         String stringBuilder = readFile("src/main/resources/code.txt");
         LinkedList<Token> tokens = tokenize(stringBuilder);
-        tokens.forEach((x)-> System.out.print(x.getLexeme()+' '));
+        tokens.forEach((x) -> System.out.print(x.getLexeme() + ' '));
+        System.out.println("");
 
-
+        Compiler compiler = new Compiler(tokens);
+        compiler.compile();
+        compiler.WriteToFile("src/main/resources/commands.txt");
 
 
     }
 
-    public static String readFile(String path) throws FileNotFoundException {
+    private static String readFile(String path) throws FileNotFoundException {
         File file = new File(path);
         Scanner scanner = new Scanner(file);
         String code = "";
@@ -26,7 +28,7 @@ public class Main {
         return code;
     }
 
-    public static LinkedList<Token> tokenize(String code) {
+    private static LinkedList<Token> tokenize(String code) {
         String str = code.replaceAll("\\s", "");
         Pattern pattern = Pattern.compile("[a-zA-Z]+|\\d+\\.\\d+|\\d+|\\W");
         Matcher matcher = pattern.matcher(str);

@@ -26,7 +26,7 @@ public class Token {
         return lexeme.equals("while");
     }
     public boolean isVariable(){
-        return lexeme.chars().allMatch(Character::isLetter);
+        return lexeme.chars().allMatch(Character::isLetterOrDigit);
     }
     public boolean isOperator(){
         return Arrays.asList(new String[]{"+", "-", "*", "/"}).contains(lexeme);
