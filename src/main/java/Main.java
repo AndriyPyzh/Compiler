@@ -17,6 +17,7 @@ public class Main {
 
         VirtualMachine virtualMachine = new VirtualMachine("src/main/resources/commands.txt");
         virtualMachine.GetComands();
+        virtualMachine.execute();
 
     }
 

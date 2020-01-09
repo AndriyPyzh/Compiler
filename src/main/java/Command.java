@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 
 public class Command {
     private String command;
@@ -58,6 +56,14 @@ public class Command {
 
     @Override
     public String toString() {
-        return command.toString() + ' ' + arg1 + (arg2 == null ? "" :" " + arg2 + (arg3 == null ? "" :" " + arg3));
+        return command + ' ' + arg1 + (arg2 == null ? "" : " " + arg2 + (arg3 == null ? "" : " " + arg3));
+    }
+
+    public String[] getArgs() {
+        if (arg2 == null)
+            return new String[]{ arg1};
+        if (arg3 == null)
+            return new String[]{ arg1, arg2};
+        return new String[]{ arg1, arg2, arg3};
     }
 }

@@ -1,10 +1,5 @@
-read> a;
-a = 12;
-a = (12-6)*2 * 4 - 12;
-write> a;
+a=12;
 while[a]{
+write> a;
 a = a-1;
-}
-if[a]{
-write>a;
 }

@@ -75,7 +75,7 @@ public class Compiler {
 
         } else {
             if (token(index + 3).getLexeme().equals(";")) {
-                COMMANDS.add(new Command("COPY", token(index).getLexeme(), token(index += 2).getLexeme()));
+                COMMANDS.add(new Command("COPY", token(index+=2).getLexeme(), token(index -2).getLexeme()));
                 index += 2;
             } else {
                 index += 2;
