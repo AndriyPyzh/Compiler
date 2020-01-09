@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -59,6 +58,6 @@ public class Command {
 
     @Override
     public String toString() {
-        return command.toString() + ' ' + arg1 + " " + (arg2 == null ? "" : arg2) + " " + (arg3 == null ? "" : arg3);
+        return command.toString() + ' ' + arg1 + (arg2 == null ? "" :" " + arg2 + (arg3 == null ? "" :" " + arg3));
     }
 }

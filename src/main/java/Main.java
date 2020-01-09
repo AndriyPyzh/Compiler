@@ -15,6 +15,8 @@ public class Main {
         compiler.compile();
         compiler.WriteToFile("src/main/resources/commands.txt");
 
+        VirtualMachine virtualMachine = new VirtualMachine("src/main/resources/commands.txt");
+        virtualMachine.GetComands();
 
     }
 

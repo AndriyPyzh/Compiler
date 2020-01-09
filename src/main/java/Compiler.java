@@ -129,7 +129,7 @@ public class Compiler {
             if (token(index).isVariable()) {
                 ARGUMENTS.push(token(index).getLexeme());
             } else if (token(index).isOperator()) {
-                while (OPERATIONS.size() !=0 && priority(OPERATIONS.peek()) <= priority(token(index).getLexeme())) {
+                while (OPERATIONS.size() != 0 && priority(OPERATIONS.peek()) <= priority(token(index).getLexeme())) {
                     generateCommand(OPERATIONS, ARGUMENTS);
                 }
                 OPERATIONS.push(token(index).getLexeme());
