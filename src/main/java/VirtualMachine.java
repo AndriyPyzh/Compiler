@@ -61,20 +61,26 @@ public class VirtualMachine {
         }
     }
 
+    private String var(String var){
+        if (var.chars().allMatch(Character::isDigit))
+            return var;
+        return Integer.toString(variables.get(var).intValue());
+    }
+
     private void add(String[] args) {
-        variables.put(args[2], (double) (Integer.parseInt(args[0]) + Integer.parseInt(args[1])));
+        variables.put(args[2], (double) (Integer.parseInt(var(args[0])) + Integer.parseInt(var(args[1]))));
     }
 
     private void sub(String[] args) {
-        variables.put(args[2], (double) (Integer.parseInt(args[0]) - Integer.parseInt(args[1])));
+        variables.put(args[2], (double) (Integer.parseInt(var(args[0])) - Integer.parseInt(var(args[1]))));
     }
 
     private void div(String[] args) {
-        variables.put(args[2], (double) (Integer.parseInt(args[0]) / Integer.parseInt(args[1])));
+        variables.put(args[2], (double) (Integer.parseInt(var(args[0])) / Integer.parseInt(var(args[1]))));
     }
 
     private void mul(String[] args) {
-        variables.put(args[2], (double) (Integer.parseInt(args[0]) * Integer.parseInt(args[1])));
+        variables.put(args[2], (double) (Integer.parseInt(var(args[0])) * Integer.parseInt(var(args[1]))));
     }
 
     private void write(String[] args) {
@@ -100,6 +106,7 @@ public class VirtualMachine {
     private void goto_(String[] args) {
         index = Integer.parseInt(args[0]) - 1;
     }
+
 
 
     private void createoperations() {

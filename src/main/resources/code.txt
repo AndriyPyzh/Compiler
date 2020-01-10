@@ -1,5 +1,7 @@
-a=12;
+a=12.5;
 while[a]{
+if[a-5]{
 write> a;
+}
 a = a-1;
 }
