@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import java.util.ArrayList;
 
 public class Command {
@@ -66,4 +67,9 @@ public class Command {
             return new String[]{ arg1, arg2};
         return new String[]{ arg1, arg2, arg3};
     }
+=======
+package PACKAGE_NAME;
+
+public class Command {
+>>>>>>> 137cb2fcdae507f0bd118c6659f447c1da3c8fed
 }
