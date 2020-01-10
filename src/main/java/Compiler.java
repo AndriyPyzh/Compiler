@@ -111,6 +111,12 @@ public class Compiler {
             case "/":
                 command = "DIV";
                 break;
+            case ">":
+                command = "GREAT";
+                break;
+            case "<":
+                command = "LESS";
+                break;
             default:
                 System.err.println("Invalid Operation");
                 System.exit(1);

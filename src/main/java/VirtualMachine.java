@@ -108,6 +108,14 @@ public class VirtualMachine {
         index = Integer.parseInt(args[0]) - 1;
     }
 
+    private void great(String[] args) {
+        variables.put(args[2], Double.parseDouble(var(args[0])) < Double.parseDouble(var(args[1]))?0.0:1.0);
+    }
+
+    private void less(String[] args) {
+        variables.put(args[2], Double.parseDouble(var(args[0])) > Double.parseDouble(var(args[1]))?0.0:1.0);
+    }
+
 
     private void createoperations() {
         operations.put("ADD", this::add);
@@ -119,6 +127,8 @@ public class VirtualMachine {
         operations.put("COPY", this::copy);
         operations.put("GOTOIFNOT", this::gotoifnot);
         operations.put("GOTO", this::goto_);
+        operations.put("GREAT", this::great);
+        operations.put("LESS", this::less);
     }
 
 

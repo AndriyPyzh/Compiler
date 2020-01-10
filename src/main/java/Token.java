@@ -29,6 +29,6 @@ public class Token {
         return lexeme.chars().allMatch(Character::isLetterOrDigit);
     }
     public boolean isOperator(){
-        return Arrays.asList(new String[]{"+", "-", "*", "/"}).contains(lexeme);
+        return Arrays.asList(new String[]{"+", "-", "*", "/",">","<"}).contains(lexeme);
     }
 }
